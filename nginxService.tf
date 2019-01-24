@@ -11,8 +11,8 @@ resource "kubernetes_service" "echo" {
       app = "firstapp"
     }
     port {
-      port = 31277
-      target_port = 80
+      port = 80
+      target_port = 31277
     }
     #type = "LoadBalancer"
     type = "NodePort"	
