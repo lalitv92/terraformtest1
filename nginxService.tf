@@ -12,7 +12,7 @@ resource "kubernetes_service" "echo" {
     }
     port {
       port = 80
-      target_port = 31277
+
     }
     #type = "LoadBalancer"
     type = "NodePort"	
