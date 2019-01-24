@@ -8,10 +8,10 @@ resource "kubernetes_service" "echo" {
   }
   spec {
     selector {
-      App = "firstapp"
+      app = "firstapp"
     }
     port {
-      port        = 31277
+      port = 31277
       target_port = 80
     }
     #type = "LoadBalancer"
