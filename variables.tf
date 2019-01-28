@@ -43,12 +43,7 @@ variable backends {
   type        = "map"
   default     = {
     "0" = {
-          	region            = "us-east1"
-  	zone              = "us-east1-b"
-  	name              = "lalit-efk"
-  	
-  	service_port      = 9200
-  	service_port_name = "http"
+          	group            = "abctesting"
       }
   }
 }
