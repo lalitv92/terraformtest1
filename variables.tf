@@ -1,5 +1,5 @@
 
-variable project 
+variable project {
   description = "The project to deploy to, if not set the default provider project is used."
   default     = "silent-card-210011"
 }
