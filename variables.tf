@@ -1,19 +1,14 @@
-provider "kubernetes" {
-config_path = "/home/opsmxuser/.kube/config"
+variable project {
+  description = "The project to deploy to, if not set the default provider project is used."
+  default     = ""
 }
 
-resource "kubernetes_service" "echo" {
-  metadata {
-    name = "ngnix-service"
-  }
-  spec {
-    selector {
-      app = "firstapp"
-    }
-    port {
-      port = 80
+variable http_forward {
+  description = "Set to `false` to disable HTTP port 80 forward"
+  default     = true
+}
 
-    }
-    #type = "LoadBalancer"
-    type = "NodePort"	
-} }
+variable name {
+  description = "Name for the forwarding rule and prefix for supporting resources"
+  default = "testingLoadblancer"
+}
