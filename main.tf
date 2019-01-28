@@ -3,7 +3,7 @@ resource "google_compute_instance_group" "elasticsearch-cluster" {
   description = "Terraform test instance group"
 
   instances = [
-    "${google_compute_instance.lalit-efk-compute-instance.*.self_link}"
+    "${google_compute_instance.elasticsearch-compute-instance.*.self_link}"
   ]
 
   named_port {
