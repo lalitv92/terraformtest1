@@ -1,39 +1,45 @@
-resource "google_compute_forwarding_rule" "default" {
-  project               = "${var.project}"
-  name                  = "${var.name}"
-  target                = "${google_compute_target_pool.default.self_link}"
-  load_balancing_scheme = "EXTERNAL"
-  port_range            = "${var.service_port}"
-}
+resource "google_compute_instance_group" "elasticsearch-cluster" {
+  name        = "elasticsearch-cluster"
+  description = "Terraform test instance group"
 
-resource "google_compute_target_pool" "default" {
-  project          = "${var.project}"
-  name             = "${var.name}"
-  region           = "${var.region}"
-  session_affinity = "${var.session_affinity}"
-
-  health_checks = [
-    "${google_compute_http_health_check.default.name}",
+  instances = [
+    "${google_compute_instance.lalit-efk-compute-instance.*.self_link}"
   ]
-}
 
-resource "google_compute_http_health_check" "default" {
-  project      = "${var.project}"
-  name         = "${var.name}-hc"
-  request_path = "/"
-  port         = "${var.service_port}"
-}
-
-resource "google_compute_firewall" "default-lb-fw" {
-  project = "${var.firewall_project == "" ? var.project : var.firewall_project}"
-  name    = "${var.name}-vm-service"
-  network = "${var.network}"
-
-  allow {
-    protocol = "tcp"
-    ports    = ["${var.service_port}"]
+  named_port {
+    name = "elasticsearch-api"
+    port = "9200"
   }
 
-  source_ranges = ["0.0.0.0/0"]
-  target_tags   = ["${var.target_tags}"]
+  zone = "us-east1-b"
+}
+
+resource "google_compute_forwarding_rule" "elasticsearch-forwarding-rule" {
+  name   = "elasticsearch-lb"
+  load_balancing_scheme = "INTERNAL"
+  backend_service = "${google_compute_region_backend_service.elasticsearch-lb.self_link}"
+  ports  = [ "9200"]
+}
+
+resource "google_compute_region_backend_service" "elasticsearch-lb" {
+  name             = "elasticsearch-lb"
+  protocol         = "TCP"
+  timeout_sec      = 10
+  session_affinity = "NONE"
+
+  backend {
+    group = "${google_compute_instance_group.elasticsearch-cluster.self_link}"
+  }
+
+  health_checks = ["${google_compute_health_check.elasticsearch-healthcheck.self_link}"]
+}
+
+resource "google_compute_health_check" "elasticsearch-healthcheck" {
+  name               = "elasticsearch-healthcheck"
+  check_interval_sec = 5
+  timeout_sec        = 5
+
+  tcp_health_check {
+    port = "9200"
+  }
 }
