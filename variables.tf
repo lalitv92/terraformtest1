@@ -1,5 +1,5 @@
 
-variable project {
+variable project 
   description = "The project to deploy to, if not set the default provider project is used."
   default     = "silent-card-210011"
 }
@@ -28,21 +28,32 @@ variable firewall_projects {
 
 variable name {
   description = "Name for the forwarding rule and prefix for supporting resources"
+  default     = "abctesting"
 }
 
 variable target_tags {
   description = "List of target tags for health check firewall rule."
   type        = "list"
+  default     = ["abctesting"]
+
 }
 
 variable backends {
   description = "Map backend indices to list of backend maps."
   type        = "map"
+  default = {
+	    "0" = [
+      {
+        group = "nahi"
+      },
+    ]
+	}
 }
 
 variable backend_params {
   description = "Comma-separated encoded list of parameters in order: health check path, service port name, service port, backend timeout seconds"
   type        = "list"
+  default     = ["/,tcp,9200,10"]
 }
 
 variable backend_protocol {
