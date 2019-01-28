@@ -41,7 +41,7 @@ variable target_tags {
 variable backends {
   description = "Map backend indices to list of backend maps."
   type        = "map"
-  default = {
+  default     = {
     "0" = "35.196.244.41"
   }
 }
