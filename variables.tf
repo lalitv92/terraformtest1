@@ -42,7 +42,9 @@ variable backends {
   description = "Map backend indices to list of backend maps."
   type        = "map"
   default     = {
-    "0" = "35.196.244.41"
+    "0" = {
+        group = "35.196.244.41"
+      }
   }
 }
 
