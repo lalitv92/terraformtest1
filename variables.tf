@@ -45,7 +45,7 @@ variable backends {
 	    "0" = [
       {
         group = "nahi"
-      }
+      },
     ]
 	}
 }
