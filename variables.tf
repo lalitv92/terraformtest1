@@ -1,6 +1,6 @@
 variable project {
   description = "The project to deploy to, if not set the default provider project is used."
-  default     = "My First Project "
+  default     = "My First Project"
 }
 
 variable http_forward {
