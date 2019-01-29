@@ -27,6 +27,7 @@ variable firewall_projects {
 
 variable name {
   description = "Name for the forwarding rule and prefix for supporting resources"
+  default     = "testLB"
 }
 
 variable target_tags {
